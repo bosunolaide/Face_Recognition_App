@@ -1,7 +1,8 @@
 import os
 import cv2
+import numpy as np
 from app.face_recognition import faceRecognitionPipeline
-from flask import render_template, request
+from flask import render_template, request, jsonify
 import matplotlib.image as matimg
 
 
@@ -53,3 +54,33 @@ def genderapp():
     
     
     return render_template('gender.html',fileupload=False) # GET REQUEST
+
+def api_predict():
+    """REST API endpoint: accepts an image file and returns predictions as JSON."""
+    if 'image' not in request.files and 'image_name' not in request.files:
+        return jsonify({'error': 'No image file provided. Use form field "image".'}), 400
+
+    f = request.files.get('image') or request.files.get('image_name')
+    if f.filename == '':
+        return jsonify({'error': 'Empty filename.'}), 400
+
+    # Read image bytes into OpenCV format
+    file_bytes = np.frombuffer(f.read(), np.uint8)
+    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    if img is None:
+        return jsonify({'error': 'Invalid image file.'}), 400
+
+    # Run through recognition pipeline without saving to disk
+    _, predictions = faceRecognitionPipeline(img, path=False)
+
+    results = []
+    for obj in predictions:
+        results.append({
+            'prediction_name': obj.get('prediction_name'),
+            'score': float(obj.get('score', 0.0))
+        })
+
+    return jsonify({
+        'num_faces': len(results),
+        'predictions': results
+    })
