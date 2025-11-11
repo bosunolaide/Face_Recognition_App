@@ -10,5 +10,7 @@ app.add_url_rule(rule='/app/gender/',
                  view_func=views.genderapp,
                  methods=['GET','POST'])
 
+app.add_url_rule(rule='/api/predict',endpoint='api_predict',view_func=views.api_predict,methods=['POST'])
+
 if __name__ == "__main__":
     app.run(debug=True)
