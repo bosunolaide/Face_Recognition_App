@@ -1,33 +1,32 @@
 from flask import Flask, jsonify
 from app import views
 
-app = Flask(__name__)
+app = Flask(__name__)  # webserver gateway interface (WSGI)
 
 def health():
-    try:
-        from app.face_recognition import model
-        return jsonify(status="ok", model_loaded=True), 200
-    except Exception as e:
-        return jsonify(status="error", error=str(e)), 500
+    """Basic health check endpoint for load balancers/monitoring."""
+    return jsonify(status="ok", service="face-recognition-app"), 200
 
-app.add_url_rule('/', 'home', views.index)
-app.add_url_rule('/app/', 'app', views.app)
+app.add_url_rule(rule='/', endpoint='home', view_func=views.index)
+app.add_url_rule(rule='/app/', endpoint='app', view_func=views.app)
 app.add_url_rule(
-    '/app/gender/',
-    'gender',
-    views.genderapp,
+    rule='/app/gender/',
+    endpoint='gender',
+    view_func=views.genderapp,
     methods=['GET', 'POST']
 )
+
 app.add_url_rule(
-    '/api/predict',
-    'api_predict',
-    views.api_predict,
+    rule='/api/predict',
+    endpoint='api_predict',
+    view_func=views.api_predict,
     methods=['POST']
 )
+
 app.add_url_rule(
-    '/health/',
-    'health',
-    health,
+    rule='/health/',
+    endpoint='health',
+    view_func=health,
     methods=['GET']
 )
 

@@ -14,6 +14,14 @@ def test_homepage(client):
     response = client.get("/")
     assert response.status_code == 200
 
+def test_health(client):
+    """Health endpoint should return 200."""
+    response = client.get("/health/")
+    assert response.status_code == 200
+    json_data = response.get_json()
+    assert json_data["status"] == "ok"
+
+
 def test_api_predict_missing_file(client):
     """Ensure API returns error when no file is sent."""
     response = client.post("/api/predict")

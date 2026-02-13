@@ -2,6 +2,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+ENV MPLBACKEND=Agg
+
 # Install system dependencies for OpenCV (optional but recommended)
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -9,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libsm6 \
     libxext6 \
     libxrender-dev \
+    libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

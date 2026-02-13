@@ -159,3 +159,27 @@ docker run -p 5000:5000 face-recognition-app
 ---
 
 Enjoy hacking on face recognition 🔍👤
+## CI/CD (GitHub Actions)
+
+This repo includes a GitHub Actions pipeline at `.github/workflows/ci-cd.yml` that runs on every PR and push to `main`:
+
+- Linting with **ruff**
+- Tests with **pytest**
+- Docker image build using the included `Dockerfile`
+
+### Optional: Auto-deploy to Render
+
+If you deploy this project to Render as a Docker Web Service, you can enable automatic deployments after CI passes:
+
+1. In Render, create a **Deploy Hook** for the service.
+2. In GitHub, add the hook URL as a repository secret named:
+
+   - `RENDER_DEPLOY_HOOK`
+
+When that secret exists, the workflow will `POST` to the hook on every successful push to `main`.
+
+### Health check endpoint
+
+The app exposes a simple health endpoint:
+
+- `GET /health/` → `{"status":"ok","service":"face-recognition-app"}`
