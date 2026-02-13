@@ -4,10 +4,11 @@ from app import views
 app = Flask(__name__)
 
 def health():
-    return jsonify(
-        status="ok",
-        service="face-recognition-app"
-    ), 200
+    try:
+        from app.face_recognition import model
+        return jsonify(status="ok", model_loaded=True), 200
+    except Exception as e:
+        return jsonify(status="error", error=str(e)), 500
 
 app.add_url_rule('/', 'home', views.index)
 app.add_url_rule('/app/', 'app', views.app)
