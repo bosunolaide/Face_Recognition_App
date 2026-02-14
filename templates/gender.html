@@ -1,60 +1,87 @@
 {% extends 'base.html' %}
 
+{% block title %}Gender Classification • Face Recognition Web App{% endblock %}
+
 {% block bodyblock %}
-<!-- 12 -->
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <br><br>
-            <!-- form : upload the image -->
-            <h3 class="display-8" >Gender Classification</h3>
-            <p>Upload an image (.jpg, .jpeg, .png), our model will 
-                detect face first and then predict gender based on face (Male or Female)
-            </p>
-            <!-- upload image form -->
-            <form action="#" method="POST" enctype="multipart/form-data">
-                <div class="input-group">
-                    <input type="file" class="form-control" name="image_name" required>
-                    <input type="submit" value="Upload & Predict" class="btn btn-outline-primary">
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="glass p-4">
+      <h1 class="h4 fw-bold mb-2">Gender Classification</h1>
+      <p class="muted mb-4">
+        Upload an image (<span class="kbd">.jpg</span>, <span class="kbd">.jpeg</span>, <span class="kbd">.png</span>).
+        The model will detect a face first, then predict gender based on facial features.
+      </p>
 
-                </div>
-            </form>
-
+      <form action="#" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Select an image</label>
+          <input type="file" class="form-control" name="image_name" required>
+          <div class="form-text">Best results: front-facing, well-lit images.</div>
         </div>
-        <div class="col-8">
-            <!-- report: prediction image, reporting (grayscale, eigen image and probability score) -->
-            {% if fileupload %}
-            <br><br>
-            <!-- predicted image -->
-            <h3 class="display-8"> Predicted Image</h3>
-            <img src="/static/predict/prediction_image.jpg" class="image-fluid" width="500" alt="">
-            <!-- reporting -->
-            <hr>
-            <br>
-            <table class="table table-hover table-striped">
-                <tr>
+        <button type="submit" class="btn btn-brand w-100">Upload & Predict</button>
+      </form>
+
+      <hr class="my-4">
+
+      <div class="small muted">
+        Quick links:
+        <a class="text-decoration-none" href="/app/">/app/</a>
+        <span class="mx-1">•</span>
+        <a class="text-decoration-none" href="/health/" target="_blank" rel="noopener">/health/</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="glass p-4">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="h5 fw-bold mb-0">Prediction Results</h2>
+        {% if fileupload %}
+          <span class="badge text-bg-success">Uploaded</span>
+        {% else %}
+          <span class="badge text-bg-secondary">Waiting for upload</span>
+        {% endif %}
+      </div>
+
+      {% if fileupload %}
+        <hr class="my-3">
+        <div class="row g-3 align-items-start">
+          <div class="col-md-6">
+            <div class="fw-semibold mb-2">Predicted Image</div>
+            <img src="/static/predict/prediction_image.jpg" class="img-fluid rounded-4 border" alt="Prediction output">
+          </div>
+          <div class="col-md-6">
+            <div class="fw-semibold mb-2">Report</div>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle table-hover">
+                <thead class="table-light">
+                  <tr>
                     <th>Detection Face</th>
                     <th>Eigen Image</th>
-                    <th>Prediction Gender</th>
+                    <th>Prediction</th>
                     <th>Score</th>
-                </tr>
-                {% for element in report %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for element in report %}
                     <tr>
-                        <td>
-                            <img src="/static/predict/{{ element[0] }}" class="image-fluid" height="100" alt="">
-                        </td>
-                        <td>
-                            <img src="/static/predict/{{ element[1] }}" class="image-fluid" height="100" alt="">
-                        </td>
-                        <td>{{ element[2] }}</td>
-                        <td>{{ element[3] }}</td>
+                      <td><img src="/static/predict/{{ element[0] }}" class="img-fluid rounded-3 border" style="max-height:90px" alt=""></td>
+                      <td><img src="/static/predict/{{ element[1] }}" class="img-fluid rounded-3 border" style="max-height:90px" alt=""></td>
+                      <td class="fw-semibold">{{ element[2] }}</td>
+                      <td>{{ element[3] }}</td>
                     </tr>
-                {% endfor %}
-            </table>
-            {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="small muted">Scores indicate model confidence for the predicted class.</div>
+          </div>
         </div>
+      {% else %}
+        <hr class="my-3">
+        <p class="muted mb-0">Upload an image to see predictions and model outputs here.</p>
+      {% endif %}
     </div>
+  </div>
 </div>
-
-
 {% endblock %}

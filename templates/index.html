@@ -1,18 +1,112 @@
 {% extends 'base.html' %}
 
+{% block title %}Home • Face Recognition Web App{% endblock %}
+
 {% block bodyblock %}
+<div class="row g-4 align-items-stretch">
+  <div class="col-lg-7">
+    <div class="glass p-4 p-lg-5 h-100">
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <span class="badge text-bg-primary">Computer Vision</span>
+        <span class="badge text-bg-secondary">ML Inference</span>
+        <span class="badge text-bg-light text-dark border">Production-ready</span>
+      </div>
 
-<div class="container">
-    <br><br>
-    <h3 class="display-6">
-        Welcome to End to Face Recognition Web App Project
-    </h3>
-    <br>
-    <p>
-        Content
-    </p>
+      <h1 class="display-6 fw-bold mb-3">Face Recognition & Gender Classification</h1>
+      <p class="lead muted mb-4">
+        A Flask-based web application that detects faces with OpenCV, transforms them into eigenfaces (PCA),
+        and predicts gender using a trained ML classifier — with containerized deployment and health monitoring.
+      </p>
 
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-brand btn-lg px-4" href="/app/">Try the App</a>
+        <a class="btn btn-soft btn-lg px-4" href="/health/" target="_blank" rel="noopener">Check Health</a>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="p-3 rounded-4 border bg-white">
+            <div class="fw-semibold mb-1">How it works</div>
+            <div class="small muted">
+              Upload an image → face ROI extraction → grayscale normalization → PCA projection → SVM prediction.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-3 rounded-4 border bg-white">
+            <div class="fw-semibold mb-1">API endpoint</div>
+            <div class="small muted">
+              For programmatic inference, use <span class="kbd">POST /api/predict</span> (JSON response).
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-3 rounded-4 border bg-white">
+            <div class="fw-semibold mb-1">Operational checks</div>
+            <div class="small muted">
+              Use <span class="kbd">GET /health/</span> for uptime monitoring and deployment verification.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-3 rounded-4 border bg-white">
+            <div class="fw-semibold mb-1">Deployment</div>
+            <div class="small muted">
+              Dockerized with Gunicorn. CI via GitHub Actions. Deployed on Render.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="glass p-4 p-lg-5 h-100">
+      <h2 class="h4 fw-bold mb-3">Project Overview</h2>
+      <p class="muted mb-4">
+        This project demonstrates a complete ML inference workflow — from image preprocessing to model prediction — packaged
+        into a clean web UI for interactive testing.
+      </p>
+
+      <div class="mb-4">
+        <div class="fw-semibold mb-2">Tech stack</div>
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-dark">Flask</span>
+          <span class="badge bg-dark">OpenCV</span>
+          <span class="badge bg-dark">scikit-learn</span>
+          <span class="badge bg-dark">PCA</span>
+          <span class="badge bg-dark">SVM</span>
+          <span class="badge bg-dark">Docker</span>
+          <span class="badge bg-dark">Gunicorn</span>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="fw-semibold mb-2">Try these routes</div>
+        <div class="list-group">
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/app/">
+            <span><span class="kbd">/app/</span> — App landing</span>
+            <span class="text-muted">→</span>
+          </a>
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/app/gender/">
+            <span><span class="kbd">/app/gender/</span> — Upload & predict</span>
+            <span class="text-muted">→</span>
+          </a>
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="/health/" target="_blank" rel="noopener">
+            <span><span class="kbd">/health/</span> — Service health</span>
+            <span class="text-muted">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="small muted">
+        Tip: If you’re demoing this to a recruiter, start with <span class="kbd">/health/</span> to show it’s live,
+        then walk through the upload flow on <span class="kbd">/app/gender/</span>.
+      </div>
+    </div>
+  </div>
 </div>
-
-
 {% endblock %}

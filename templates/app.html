@@ -1,20 +1,34 @@
 {% extends 'base.html' %}
 
+{% block title %}App • Face Recognition Web App{% endblock %}
+
 {% block bodyblock %}
+<div class="glass p-4 p-lg-5">
+  <div class="row g-4 align-items-center">
+    <div class="col-lg-7">
+      <h1 class="h2 fw-bold mb-2">Face Recognition Application</h1>
+      <p class="muted mb-4">
+        This demo focuses on <strong>Gender Classification</strong> using a machine learning pipeline.
+        When you upload an image, the system detects the face region, converts it to grayscale, projects it into
+        an eigenface space (PCA), then runs a classifier to predict <em>Male</em> or <em>Female</em>.
+      </p>
 
-<div class="container">
-    <br><br>
-    <h3 class="display-8">Face Recognition Application</h3>
-    
-    <p>
-        Gender Classification: This app is driven by data and machine learning model.
-            As soon as user upload the image, in background it convert into grayscale, crop face, convert into eigen image and 
-            finally it model to predict. All this functionality dumped in the flask app.
-    </p>
-    <img src="/static/images/002.PNG" class="image-fluid" width="600" alt="">
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-brand btn-lg px-4" href="/app/gender/">Open Gender App</a>
+        <a class="btn btn-soft btn-lg px-4" href="/health/" target="_blank" rel="noopener">Health</a>
+      </div>
 
-    <a class="btn btn-outline-primary" href="/app/gender/">Gender App</a>
+      <div class="mt-4 small muted">
+        Prefer API? Use <span class="kbd">POST /api/predict</span> for programmatic inference.
+      </div>
+    </div>
 
+    <div class="col-lg-5">
+      <div class="p-3 p-lg-4 rounded-4 border bg-white">
+        <div class="fw-semibold mb-2">Pipeline preview</div>
+        <img src="/static/images/002.PNG" class="img-fluid rounded-4 border" alt="Pipeline preview">
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock %}
